@@ -1,17 +1,19 @@
-name: Cypress Tests
-
-on: [push]
-
+name: ci
+on: push
 jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-20.04
     steps:
-      - name: Checkout
+      - name: Check out code 🛎
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
+
+      - name: Run E2E tests 🧪
+        uses: cypress-io/github-action@v2
+
+      - name: Run Component tests 🧪
         uses: cypress-io/github-action@v2
         with:
-          build: npm run build
-          start: npm start
+          # we have already installed everything
+          install: false
+          # to run component tests we need to use "cypress run-ct"
+          command: yarn cypress run-ct
